@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 from sklearn.utils import shuffle
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import recall_score, precision_score
@@ -190,6 +189,7 @@ if __name__ == '__main__':
     plt.title("Loss vs Epochs")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
+    plt.tight_layout()
     plt.savefig("learning_rate.png")
     plt.clf()
     print("Testing Stochastic Gradient Descent.")
