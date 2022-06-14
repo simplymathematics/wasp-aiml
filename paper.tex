@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 
 \title{WASP: AIML Module 2}
 \date{June 2022}
@@ -10,72 +11,86 @@
 
 \section{Logistic Regression}
 Logistic regression uses an s-shaped function that maps a set up inputs to a value between 0 and 1, defined by:
-
 $$
 p(y = 1| t) =  \frac{e^z}{1 + e^z}
 $$
-
 where $z$ is a function, of some weights, inputs and biases ($ w, x, b$, respectively), such that
-
 $$
 z(x) = w \cdot x + b
 $$
-
 and 
-
 $$
 y(x) = 0 \textrm{ if } z(x) < .5, \textrm{ else } 1
 $$
-
-
 The loss can be defined as:
-
 $$
 L(x) = \frac{1}{n} \sum_{i = 1}^n log \bigg( 1 + e ^{-y_i(x)} \bigg)
 $$
-
 where n is the number of samples. Our objective is to minimize the total loss across all of the samples by changing the parameters $w, b$. Since this function is `nice' in the Calculus sense, we can minimize it analytically, using the gradient.
 
 \subsection{Gradient}
 
 To generalize this further, for any $z(x) = \theta \cdot x$
-
 $$
 log(p(x)) = log \bigg( \frac{1}{1+e^{-\theta x}} \bigg)= -log \bigg( 1 + e^{^-\theta x} \bigg)
 $$
-
 which yields
-
 $$
 L(x) = \frac{1}{n} \sum_{i = 1}^n -log \bigg( y_i \cdot \theta \cdot  x_i -log(1 + e ^-\theta x)  \bigg).
 $$
-
 Therefore
-
 $$
 \frac{\partial}{\partial \theta_j} y_i \cdot \theta \cdot x_{i,j} = y_i \cdot x_{i,j}
 $$
-
 and 
-
 $$
 \frac{\partial}{\partial \theta_j} -log(1 + e ^-\theta x)  = x_{j,i}z(x_i)
 $$
-
 such that
-
 $$
 \frac{\partial}{\partial \theta_j} = L(\theta) \frac{1}{n} \sum_{i = 1}^m(z(x^i) - y^i) \cdot x_{i,j}
 $$
 
-This is verified in the attached jupyter notebook.
-
 \section{Experiments}
 I looked at both the feature mapping experiments as well as the learning rate experiments. 
+
 \subsection{Feature Mapping}
 In this experiment, we used the original feature map to derive two more based on power transformations of the original data using powers 2 and 3 respectively.
+
+\begin{figure}[h]{
+    \centering
+    \includegraphics[width=.8\textwidth]{loss_poly.png}
+    \caption{Pictured are three logistic regression models that are trained on various power transformations of the data. As we can see}
+    \label{fig:my_label}
+    }
+\end{figure}
+
 \subsection{Learning Rate}
-\subsubsection{Stochastic Gradient Descent}
-\subsubsection{Accelerated Learning}
-\subsubsection{Adaptive Learning}
+
+\begin{figure}[h]{
+    \centering
+    \includegraphics[width=.8\textwidth]{learning_rate.png}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
+    \label{fig:my_label}
+    }
+\end{figure}
+
+\begin{figure}[h]{
+    \centering
+    \includegraphics[width=.8\textwidth]{gradient_size.png}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
+    \label{fig:my_label}
+    }
+\end{figure}
+
+
+\begin{figure}[h]{
+    \centering
+    \includegraphics[width=.8\textwidth]{loss.png}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
+    \label{fig:my_label}
+    }
+\end{figure}
+
+
 \end{document}
