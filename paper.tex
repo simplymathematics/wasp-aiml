@@ -70,7 +70,15 @@ In this experiment, we used the original feature map to derive two more based on
 \begin{figure}[h]{
     \centering
     \includegraphics[width=.8\textwidth]{learning_rate.png}
-    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see, the raw features and the 3rd degree features converge faster, but they all converge on roughly the same loss, which a slight disadvantage to the 2nd degree transformation.}
+    \label{fig:my_label}
+    }
+\end{figure}
+
+\begin{figure}[h]{
+    \centering
+    \includegraphics[width=.8\textwidth]{loss.png}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see, the adaptive method converges incredibly quickly and nearly to zero while the adaptive method lags behind. The stochastic gradient technique performs the worst, due to the fixed step size preventing a smaller loss.}
     \label{fig:my_label}
     }
 \end{figure}
@@ -78,19 +86,13 @@ In this experiment, we used the original feature map to derive two more based on
 \begin{figure}[h]{
     \centering
     \includegraphics[width=.8\textwidth]{gradient_size.png}
-    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
+    \caption{Pictured are three logistic regression models that are trained using various learning rate step sizes. The accelerated method takes marginally less time than the stochastic gradient method with a step size = 10 (as optimized above). The adaptive method, however, is much faster.}
     \label{fig:my_label}
     }
 \end{figure}
 
 
-\begin{figure}[h]{
-    \centering
-    \includegraphics[width=.8\textwidth]{loss.png}
-    \caption{Pictured are three logistic regression models that are trained using various learning rate strategies. As we can see}
-    \label{fig:my_label}
-    }
-\end{figure}
+
 
 
 \end{document}
