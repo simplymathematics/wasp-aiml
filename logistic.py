@@ -5,7 +5,9 @@ from sklearn.utils import shuffle
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import recall_score, precision_score
 from sklearn.model_selection import train_test_split
-
+import autograd.numpy as np
+from autograd import grad
+from autograd.test_util import check_grads
 
 def generate_halfmoon(n1, n2, max_angle=3.14):
     alpha = np.linspace(0, max_angle, n1)
@@ -117,7 +119,7 @@ def fit(x:np.ndarray, y:np.ndarray, bs:np.ndarray, epochs:int, lr:float, method:
                 b = b - a_b * db
         # Finding the loss.
         l = loss(y, sigmoid(np.dot(x, w) + b))
-        grad = np.linalg.norm(dw)
+        grad = (np.linalg.norm(dw) ** 2 + np.linalg.norm(db) ** 2) ** .5
         losses.append(l)
         grads.append(grad)
     return w, b, losses, grads
@@ -303,3 +305,36 @@ if __name__ == '__main__':
     plt.ylabel("Loss")
     plt.savefig("loss_poly.png")
     plt.clf()
+
+
+
+    # Autograd
+    x_train, x_test, y_train, y_test = generate_halfmoon(100, 100)
+
+    def sigmoid(x):
+        return 0.5*(np.tanh(x) + 1)
+
+    def predictions(weights, inputs):
+        # Outputs probability of a label being true according to logistic model.
+        return sigmoid(np.dot(inputs, weights))
+
+    def new_loss(weights, inputs, targets):
+        # Training loss is the negative log-likelihood of the training labels.
+        preds = predictions(weights, inputs)
+        label_probabilities = preds * targets + (1 - preds) * (1 - targets)
+        return -np.sum(np.log(label_probabilities))
+    weights = np.zeros(x_train.shape[1])
+    # Asserting that the above functions are useful
+    check_grads(new_loss, modes=['rev'])(weights, x_train, y_train)
+
+
+    grad_function = grad(new_loss)
+
+
+
+    for i in range(1000):
+        weights -= grad_function(weights, x_train, y_train) * 0.01
+
+    print("Trained weights  in autograd implemetation: {}".format(weights))
+    w, b, l1, g1 = fit(x_train, y_train, bs=100000, epochs=1000, lr=.1)
+    print("Weights in SGD implementation: {}".format(w))
